@@ -1,0 +1,15 @@
+{
+  "name": "ALT/TXT",
+  "short_name": "alt/txt",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#6200ee",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>alt txt</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="icon" href="icon.png">
+
+        <!-- Polyfills only needed for Firefox and Edge. -->
+        <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@next/webcomponents-loader.js"></script> -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+<style>
+body {
+    padding: 0;
+        margin: 0;
+}
+.content-pad {
+    margin-top: 2em;
+}
+.toggleOff {
+    opacity: 0.4;
+}
+.out-card {
+    background-color: #6200ee;
+    color: #fff;
+}
+.outbox {
+        height: 8em;
+        padding: 1em;
+}
+#copybutton {
+    color: #fff;
+}
+</style>
+    </head>
+    <body>
+
+<header class="mdc-top-app-bar">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      <span class="mdc-top-app-bar__title">ALT/TXT</span>
+    </section>
+  </div>
+</header>
+        <div id="base" class="mdc-layout-grid mdc-top-app-bar--fixed-adjust">
+
+
+            <div class="mdc-layout-grid__inner content-pad">
+
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6 mdc-card mdc-card--outlined">
+                    <div class="mdc-text-field mdc-text-field--textarea mdc-text-field--fullwidth full-width-textarea-example mdc-text-field--upgraded" data-mdc-auto-init="MDCTextField">
+                        <textarea id="input" class="mdc-text-field__input" rows="4"></textarea>
+                        <label for="input" class="mdc-floating-label">Enter text here...</label>
+                    </div>
+                    <div class="mdc-card__actions">
+                        <i id="toggleStrike" class="mdc-icon-toggle material-icons" role="button" aria-pressed="true"
+                            aria-label="Strikethrough text" tabindex="0"
+                            data-toggle-on='{"label": "Strkethrough text", "cssClass":"toggleOn"}'
+                            data-toggle-off='{"label": "No strikethrough", "cssClass": "toggleOff"}'
+                            data-mdc-auto-init="MDCIconToggle">
+                            format_strikethrough
+                        </i>
+                        <i id="toggleUnder" class="mdc-icon-toggle material-icons" role="button" aria-pressed="false"
+                            aria-label="Underline text" tabindex="1"
+                            data-toggle-on='{"label": "Underline text", "cssClass":"toggleOn"}'
+                            data-toggle-off='{"label": "No underline", "cssClass": "toggleOff"}'
+                            data-mdc-auto-init="MDCIconToggle">
+                            format_underlined
+                        </i>
+                    </div>
+                </div>
+
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6 mdc-card out-card">
+                    <div class="outbox">
+                        <p id="output"></p>
+                    </div>
+                    <div class="mdc-card__actions">
+                        <div class="mdc-card__action-icons">
+                            <i id="copybutton" class="mdc-icon-toggle material-icons" role="button" aria-pressed="true"
+                                aria-label="Copy text" tabindex="0"
+                                data-mdc-auto-init="MDCIconToggle">
+                                file_copy
+                            </i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            window.mdc.autoInit();
+
+            // selectors
+            inp = document.querySelector('#input');
+            out = document.querySelector('#output');
+            toggleStrike = document.querySelector('#toggleStrike');
+            toggleUnder = document.querySelector('#toggleUnder');
+            copy2clip = document.querySelector('#copybutton');
+                
+            // update
+            update = (ev) => {
+                joiner = (toggleStrike.MDCIconToggle.on?'\u0336':'')+(toggleUnder.MDCIconToggle.on?'\u0332':'');
+                out.textContent = joiner + inp.value.split("").join(joiner) + joiner;
+                if(!inp.value){out.textContent=""}
+            }
+const copyToClipboard = () => {
+  const el = document.createElement('textarea');
+    el.value = out.textContent;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+
+            // event listeners
+            inp.oninput = inp.onpaste = inp.oncut= update;
+            toggleUnder.addEventListener('MDCIconToggle:change', update);
+            toggleStrike.addEventListener('MDCIconToggle:change', update);
+            copy2clip.addEventListener('MDCIconToggle:change', copyToClipboard);
+
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  };
+        </script>       
+    </body>
+</html>
