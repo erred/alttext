@@ -1,58 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>alt txt</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
         <meta name="theme-color" content="#6200ee">
 
+        <title>alt txt</title>
+
         <link rel="manifest" href="/manifest.webmanifest">
         <link rel="icon" href="icon.png">
-
-        <!-- Polyfills only needed for Firefox and Edge. -->
-        <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@next/webcomponents-loader.js"></script> -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-<style>
-body {
-    padding: 0;
-        margin: 0;
-}
-.content-pad {
-    margin-top: 2em;
-}
-.toggleOff {
-    opacity: 0.4;
-}
-.out-card {
-    background-color: #6200ee;
-    color: #fff;
-}
-.outbox {
-        height: 8em;
-        padding: 1em;
-}
-#copybutton {
-    color: #fff;
-}
-</style>
-    </head>
-    <body>
 
-<header class="mdc-top-app-bar">
-  <div class="mdc-top-app-bar__row">
-    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-      <span class="mdc-top-app-bar__title">ALT/TXT</span>
-    </section>
-  </div>
-</header>
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        <style>
+            @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+            :root {
+                --mdc-theme-primary: #546e7a;
+                --mdc-theme-secondary: #fff;
+                --mdc-theme-surface: var(--mdc-theme-primary);
+                --mdc-theme-background: #263238;
+                --mdc-theme-on-primary: #eceff1;
+            }
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            .content-pad {
+                margin-top: 2em;
+            }
+            .toggleOff {
+                opacity: 0.4;
+            }
+            .outbox {
+                height: 8em;
+                padding: 1em;
+            }
+        </style>
+    </head>
+    <body class="mdc-theme--background">
+
+        <header class="mdc-top-app-bar">
+            <div class="mdc-top-app-bar__row">
+                <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                    <span class="mdc-top-app-bar__title">ALT/TXT</span>
+                </section>
+            </div>
+        </header>
+
         <div id="base" class="mdc-layout-grid mdc-top-app-bar--fixed-adjust">
 
-
             <div class="mdc-layout-grid__inner content-pad">
-
-                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6 mdc-card mdc-card--outlined">
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6 mdc-card mdc-card--outlined mdc-theme--secondary-bg">
                     <div class="mdc-text-field mdc-text-field--textarea mdc-text-field--fullwidth full-width-textarea-example mdc-text-field--upgraded" data-mdc-auto-init="MDCTextField">
                         <textarea id="input" class="mdc-text-field__input" rows="4"></textarea>
                         <label for="input" class="mdc-floating-label">Enter text here...</label>
@@ -75,13 +73,13 @@ body {
                     </div>
                 </div>
 
-                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6 mdc-card out-card">
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6 mdc-card">
                     <div class="outbox">
-                        <p id="output"></p>
+                        <p id="output mdc-theme--on-primary"></p>
                     </div>
                     <div class="mdc-card__actions">
                         <div class="mdc-card__action-icons">
-                            <i id="copybutton" class="mdc-icon-toggle material-icons" role="button" aria-pressed="true"
+                            <i id="copybutton" class="mdc-icon-toggle material-icons mdc-theme--on-primary" role="button" aria-pressed="true"
                                 aria-label="Copy text"
                                 data-mdc-auto-init="MDCIconToggle">
                                 file_copy
@@ -93,15 +91,15 @@ body {
             </div>
         </div>
 
-<div class="mdc-snackbar"
-     aria-live="assertive"
-     aria-atomic="true"
-     aria-hidden="true">
-  <div class="mdc-snackbar__text"></div>
-  <div class="mdc-snackbar__action-wrapper">
-    <button type="button" class="mdc-snackbar__action-button"></button>
-  </div>
-</div>
+        <div class="mdc-snackbar"
+             aria-live="assertive"
+             aria-atomic="true"
+             aria-hidden="true">
+            <div class="mdc-snackbar__text"></div>
+            <div class="mdc-snackbar__action-wrapper">
+                <button type="button" class="mdc-snackbar__action-button"></button>
+            </div>
+        </div>
 
         <script type="text/javascript">
             window.mdc.autoInit();
@@ -114,23 +112,23 @@ body {
             copy2clip = document.querySelector('#copybutton');
                 
             // update
-            update = (ev) => {
+            const update = () => {
                 joiner = (toggleStrike.MDCIconToggle.on?'\u0336':'')+(toggleUnder.MDCIconToggle.on?'\u0332':'');
                 out.textContent = joiner + inp.value.split("").join(joiner) + joiner;
                 if(!inp.value){out.textContent=""}
             }
-const copyToClipboard = () => {
-  const el = document.createElement('textarea');
-    el.value = out.textContent;
-  el.setAttribute('readonly', '');
-  el.style.position = 'absolute';
-  el.style.left = '-9999px';
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand('copy');
-  document.body.removeChild(el);
-    mdc.snackbar.MDCSnackbar.attachTo(document.querySelector('.mdc-snackbar')).show({"message":"Copied to clipboad"})
-};
+            const copyToClipboard = () => {
+                const el = document.createElement('textarea');
+                el.value = out.textContent;
+                el.setAttribute('readonly', '');
+                el.style.position = 'absolute';
+                el.style.left = '-9999px';
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                mdc.snackbar.MDCSnackbar.attachTo(document.querySelector('.mdc-snackbar')).show({"message":"Copied to clipboad"})
+            };
 
             // event listeners
             inp.oninput = inp.onpaste = inp.oncut= update;
@@ -138,9 +136,7 @@ const copyToClipboard = () => {
             toggleStrike.addEventListener('MDCIconToggle:change', update);
             copy2clip.addEventListener('MDCIconToggle:change', copyToClipboard);
 
-  if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  };
+            if('serviceWorker' in navigator) {navigator.serviceWorker.register('sw.js');};
         </script>       
     </body>
 </html>
